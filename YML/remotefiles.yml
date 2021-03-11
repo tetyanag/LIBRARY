@@ -1,0 +1,28 @@
+---
+- name: file manipul on remote server
+  hosts: serverb
+  become: true
+  tasks:
+    - include_vars:
+        file: newvars.yml
+    - name: Create 3 files
+      file:
+        path: "{{ dirpath }}/{{ item.name }}"
+        state: "{{ filetype }}" 
+        owner: "{{ item.userowner }}"
+        group: "{{ item.groupowner }}"
+        mode: "{{ item.filemode }}"
+      loop: "{{ files }}"
+    - name: Create directory 
+      file:
+        path: "{{ newdirpath }}"
+        state: "{{ dirtype }}" 
+        owner: "{{ userowner }}"
+        group: "{{ groupowner }}"
+        mode: "{{ dirmode }}"
+    - name: Copy files into directory
+      copy:
+        remote_src: yes
+        src: "/home/ansibleadmin/{{ item.name }}"
+        dest: "{{ newdirpath }}"   
+      loop: "{{ files }}"              

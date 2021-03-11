@@ -1,0 +1,31 @@
+---
+- name: Setup a cronjob
+  hosts: servera
+  become: yes
+  tasks:
+    - name: Create a cronjob for testuser to run every 2 minutes
+      ansible.builtin.cron:
+        name: "Hiya job"
+        user: testuser
+        job: 'echo Hiya'
+        minute: "*/2"
+        hour: "*"
+        day: "*"
+        month: "*"
+        weekday: "*"
+    - name: Cronjob with time
+      cron:
+        name: "testjob"
+        user: testuser
+        job: "echo $(date)>>/home/testuser/test.txt"
+        minute: "23"
+        hour: "14"
+- name: Cronjob for a webserver
+  hosts: serverc
+  become: yes
+  tasks:
+    - name: Create a cronjob for root
+      cron:
+        name: "echo date"
+        user: root
+        job: "echo $(date)>>/var/www/html/index.html" 

@@ -1,0 +1,40 @@
+---
+- name:
+  hosts: localhost
+  become: true
+  tasks:
+    - name: Create file
+      file:
+        path: /home/ansibleadmin/customindex
+        state: touch
+    - name: Add content to file
+      copy:
+        content: "Hello from FallDevops"
+        dest: /home/ansibleadmin/customindex   
+
+- name: Provisioning Apache web server
+  hosts: serverc
+  become: true
+  tasks:
+    - name: Installing packages
+      yum:
+        name: httpd
+        state: latest
+    - name: Start and enable servise
+      systemd:
+        name: httpd
+        state: started
+        enabled: yes   
+    - name: Add service to firewalld
+      firewalld:
+        service: http
+        state: enabled
+        permanent: yes
+        immediate: yes
+    - name: Copy Index.html file
+      copy:
+        src: ./customindex
+        dest: /var/www/html/index.html            
+      
+      
+ 

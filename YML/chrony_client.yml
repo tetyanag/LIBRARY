@@ -1,0 +1,41 @@
+---
+- name: Chrony server/client provisioning
+  hosts: serverb, serverc
+  become: yes
+  vars:
+    - servertype: client
+    - timesources:
+        - 0.centos.pool.ntp.org
+        - 1.centos.pool.ntp.org
+        - 2.centos.pool.ntp.org
+        - 3.centos.pool.ntp.org
+    - allowsubnet: 'allow 10.0.0.0/24'
+    - clientsource: '10.0.0.153'
+  tasks:
+    - name: Make sure package is installed and latest
+      yum:
+        name: chrony
+        state: latest
+    
+    - name: Configure firewalld
+      firewalld:
+        service: ntp
+        state: enabled
+        permanent: yes
+        immediate: yes
+      when: servertype == 'server'
+    - name: Copy a config file
+      template:
+        src: chrony.conf.server.j2   ## jinja2
+        dest: /etc/chrony.conf
+      when: servertype == 'server'
+    - name: Copy a config file
+      template:
+        src: chrony.conf.client.j2   ## jinja2
+        dest: /etc/chrony.conf
+      when: servertype == 'client'
+    - name: Make sure service is restarted and enabled
+      service:
+        name: chronyd
+        state: restarted
+        enabled: yes

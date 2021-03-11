@@ -1,0 +1,22 @@
+---
+- name: Variables
+  hosts: localhost
+  become: yes
+  tasks:
+    - include_vars:
+        file: vars.yml
+    - name: Create a directory "{{ dirpath }}"
+      file: 
+        path: "{{ dirpath }}"
+        state: "{{ dirtype }}"
+        owner: "{{ userowner }}"
+        group: "{{ userowner }}"
+        mode: "{{ dirmode }}"
+    - name: Bulk files creation
+      file:
+        path: "{{ dirpath }}/{{ item }}"
+        state: "{{ filetype }}"
+        owner: "{{ userowner }}"
+        group: "{{ userowner }}"
+        mode: "{{ filemode }}"
+      loop: "{{ files }}"

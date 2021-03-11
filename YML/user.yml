@@ -1,0 +1,16 @@
+---
+- name: Create user and copy a key
+  hosts: servera
+  become: true
+  tasks:
+    - name: Create a group
+      ansible.builtin.group:
+        name: falldevops
+        gid: 2020
+        state: present
+    - name: Create a user
+      user:
+        groups: falldevops
+        name: testuser
+        update_password: always
+        password: $6$TucsLDou8dpI0L2G$5p1eRUa29LkHAJ8fWpUNDB6sbQzhG5WLyNZxFzgpwwIWDx/F8BKYpE2KGPDggkF6WnAnGYsWhTtui622QAp9T1

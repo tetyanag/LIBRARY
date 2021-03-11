@@ -1,0 +1,11 @@
+---
+- 
+  hosts: localhost
+  become: true
+  tasks:
+    - include_vars:
+        file: Var.yml
+    - name: Delete httpd package
+      yum:
+        name: "{{ package_name }}"
+        state: removed

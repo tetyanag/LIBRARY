@@ -1,0 +1,45 @@
+---
+- name: Playbook to configure and mount lvm
+  hosts: servera
+  become: yes
+  vars:
+  vgname: falldevops
+    
+  tasks:
+    - name: Create partition
+      parted:
+        device: /dev/sdb
+        number: 1
+        state: present
+        flags: [ lvm ]
+        part_end: 1GB
+        part_type: 'primary'
+    - name: Create mountpoint
+      file:
+        state: 'directory'
+        path: /falldevops
+        owner: root
+        group: root
+        mode: '755'
+    - name: Create volume group
+      lvg:
+        vg: falldevops
+        state: present
+        pvs: /dev/sdb1
+    - name: Create logical volume
+      lvol:
+        vg: falldevops
+        lv: devopsfall
+        size: 500
+        state: present
+    - name: Make filesystem
+      filesystem: 
+        fstype: xfs
+        dev: /dev/mapper/falldevops-devopsfall
+    - name: Mount a filesystem
+      mount:
+        path: /falldevops
+        state: mounted
+        src: /dev/mapper/falldevops-devopsfall
+        fstype: xfs
+        opts: defaults

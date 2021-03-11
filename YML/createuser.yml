@@ -1,0 +1,49 @@
+#---
+#- name: Create user and copy a key
+#  hosts: all
+#  become: yes
+#  vars:
+#    newpassword: password
+#  tasks:
+#  - name: Create users
+#    user:
+#       name: testuser
+#       update_password: always
+#       password: "{{ newpassword|password_hash('sha512') }}"
+# ---
+#    - name: creating users, groups, directories again
+#  hosts: bcservers
+#  become: true
+#  tasks:
+#  - user:
+#  name: test_user
+#  - file:
+#  path: /home/test_dir_alt
+#  state: directory
+#  - group:
+#  name: test_group
+#  gid: 5005   
+---
+- name: Create a group
+  ansible.biltin.group:
+    name: falldevops
+    gid: 2020
+    state: present
+- name: Create user and copy a key
+  hosts: servera
+   become: true
+   tasks:
+    - name: Create users
+      user:
+        name: testuser
+        update_password: always
+        password:$6$MukEz7K2b1NaM9/5$.iFA/UxYK5IwyyEn6EU.47ZpHooSEJZ/WxvGfNpCQhxa8FJwwdmoBP.cmCVKM/vogCxEoc1v40o.DzVXMO0zP.
+    
+
+
+
+
+
+
+
+

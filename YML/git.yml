@@ -1,0 +1,17 @@
+---
+- name: git installation
+  hosts: localhost
+  become: yes
+  vars:
+    remote_repo: "https://github.com/tetyanag/LIBRARY.git"
+  tasks: 
+    - name: git installation
+      yum: 
+        name: git 
+        state: latest
+
+    - name: create remote repo    
+      git:
+        clone: yes
+        repo: "{{ remote_repo }}"
+        dest: "/home/ansibleadmin/LIBRARY"

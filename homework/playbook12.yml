@@ -1,0 +1,10 @@
+---
+-
+  hosts: localhost
+  become: true
+  tasks:
+    - include_vars:
+        file: Var.yml
+    - name: Print Student is my name
+      debug:
+        msg: "'{{ my_name }}' is my name"

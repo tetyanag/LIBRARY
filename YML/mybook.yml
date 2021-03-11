@@ -1,0 +1,10 @@
+---
+- name: adding tcp to firewalld and activating 
+  hosts: all
+  become: true
+  task:
+  - name: Adding http to firewall
+    ansible.posix.firewalld:
+     service: http
+     permanent: yes
+     state: enabled

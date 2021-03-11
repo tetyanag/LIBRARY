@@ -1,0 +1,9 @@
+---
+-
+  hosts: localhost
+  become: true
+  tasks:
+    - name: copy test.txt file
+      copy:
+        src: ./test.txt
+        dest: /tmp/test1.txt

@@ -1,0 +1,10 @@
+dirpath: '/home/falldevops'
+userowner: 'ansibleadmin'
+dirmode: '0770'
+dirtype: 'directory'
+files:
+  - file2.txt
+  - file3.txt
+  - file4.txt
+filetype: 'touch'
+filemode: '0644'

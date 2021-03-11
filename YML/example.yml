@@ -1,0 +1,35 @@
+## LIST
+
+grocery-list:
+        - potatoes
+        - cookies
+        - cake
+        - oranges
+        - apples
+        - eggs
+
+## DICTIONARY
+
+apples:   
+       color: green
+       weight: 3lbs
+       count: 10
+       freshness: yes || true
+       promotion: yes
+
+## COMBINED
+
+grocery-list:
+        - potatoes
+        - cookies
+        - cake
+        - oranges
+        - apples
+		- color: green
+                  promotion: yes
+                  count: 20
+                - color: red
+                  promotion: no
+                  count: 30
+        - eggs
+         

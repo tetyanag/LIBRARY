@@ -1,0 +1,42 @@
+---
+- name: Create a local customindex file
+  hosts: localhost
+  become: yes
+  tasks:
+    - name: Create a file
+      file:
+        path: /home/ansibleadmin/customindex
+        state: touch
+    - name: Add content to a file
+      copy:
+        content: 'Hello I came from FallDevOps 2020 class'
+        dest: /home/ansibleadmin/customindex
+
+- name: Provisioning Apache webserver
+  hosts: serverc
+  become: yes
+  vars:
+    - services:
+        - http
+        - https
+  tasks:
+    - name: Installing packages
+      yum:
+        name: httpd
+        state: latest
+    - name: Start and enable service
+      systemd:
+        name: httpd
+        state: started
+        enabled: yes
+    - name: Configure firewalld rules
+      firewalld:
+        service: "{{ item }}"
+        state: enabled
+        permanent: yes
+        immediate: yes
+      loop: "{{services }}"
+    - name: Copy custom index.html file
+      copy:
+        src: ./customindex
+        dest: /var/www/html/index.html

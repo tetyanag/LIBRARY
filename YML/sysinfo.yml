@@ -1,0 +1,7 @@
+---
+- name: Sys info
+  hosts: servera
+  tasks:
+    - name: Printing info abot VM
+      debug:
+        var: ansible_facts

@@ -1,0 +1,21 @@
+dirpath: /home/ansibleadmin/
+groupowner: 'wheel'
+userowner: 'ansibleadmin'
+dirmode: '0740'
+dirtype: 'directory'
+newdirpath: /home/ansibleadmin/testdir
+files:
+  - name: file1.txt
+    userowner: ansibleadmin
+    groupowner: ansibleadmin
+    filemode: '0700'
+  - name: file2.txt
+    userowner: ansibleadmin
+    groupowner: ansibleadmin
+    filemode: '0700'
+  - name: file3.txt
+    userowner: ansibleadmin
+    groupowner: ansibleadmin
+    filemode: '0700'
+filetype: 'touch'
+# filemode: '644'
